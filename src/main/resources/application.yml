@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: notes
+
+  h2:
+    console:
+      enabled: true
+  datasource:
+    username: guest
+    password: guest
+    url: jdbc:h2:mem:notes
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    database: h2
