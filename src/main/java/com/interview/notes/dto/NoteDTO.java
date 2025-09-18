@@ -8,14 +8,15 @@ public class NoteDTO {
 
     private Long id;
 
-    @NotBlank
-    @Size(max = 50)
+    @NotBlank(message = "Title is required")
+    @Size(max = 50, message = "Title cannot be longer then 50 characters")
     private String title;
+
+    @Size(max = 255, message = "Content cannot by longer then 255 characters")
     private String content;
     private LocalDateTime createdAt;
 
-    @NotNull
-    @Min(1)
+    @Positive(message = "Id must be not null or positive number")
     private Long authorId;
 
     public NoteDTO() {

@@ -1,18 +1,17 @@
 package com.interview.notes.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class AuthorDTO {
 
     private Long id;
 
-    @NotBlank
-    @Size(max = 50)
+    @NotNull(message = "Name cannot be null")
+    @NotBlank(message = "Name cannot be blank")
+    @Size(max = 50, message = "Name cannot be longer then 50 characters")
     private String name;
-
-    public AuthorDTO() {
-    }
 
     public AuthorDTO(Long id, String name) {
         this.id = id;

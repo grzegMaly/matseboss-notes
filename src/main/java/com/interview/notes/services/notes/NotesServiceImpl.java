@@ -1,6 +1,8 @@
 package com.interview.notes.services.notes;
 
 import com.interview.notes.dto.NoteDTO;
+import com.interview.notes.exceptions.AuthorNotFoundException;
+import com.interview.notes.exceptions.NotesNotFoundException;
 import com.interview.notes.model.Author;
 import com.interview.notes.model.Note;
 import com.interview.notes.repositories.AuthorRepository;
@@ -24,7 +26,7 @@ public class NotesServiceImpl implements NotesService {
     public NoteDTO getNoteById(Long id) {
         return notesRepository.findById(id)
                 .map(this::mapToDTO)
-                .orElseThrow(() -> new RuntimeException("Note not found"));
+                .orElseThrow(() -> new NotesNotFoundException(id));
     }
 
     @Override
@@ -39,7 +41,7 @@ public class NotesServiceImpl implements NotesService {
     public NoteDTO createNote(NoteDTO noteDTO) {
 
         Author author = authorRepository.findById(noteDTO.getAuthorId())
-                .orElseThrow(() -> new RuntimeException("Author Not Found"));
+                .orElseThrow(() -> new AuthorNotFoundException(noteDTO.getAuthorId()));
 
         Note note = new Note();
         note.setAuthor(author);
@@ -51,7 +53,7 @@ public class NotesServiceImpl implements NotesService {
     @Override
     public void deleteNoteById(Long id) {
         if (!notesRepository.existsById(id)) {
-            throw new RuntimeException("Note not found");
+            throw new NotesNotFoundException(id);
         }
         notesRepository.deleteById(id);
     }
@@ -66,6 +68,7 @@ public class NotesServiceImpl implements NotesService {
         noteDTO.setId(note.getId());
         noteDTO.setTitle(note.getTitle());
         noteDTO.setContent(note.getContent());
+        noteDTO.setCreatedAt(note.getCreatedAt());
         noteDTO.setAuthorId(note.getAuthor().getId());
         return noteDTO;
     }

@@ -1,9 +1,9 @@
 package com.interview.notes.services.author;
 
 import com.interview.notes.dto.AuthorDTO;
+import com.interview.notes.exceptions.AuthorNotFoundException;
 import com.interview.notes.model.Author;
 import com.interview.notes.repositories.AuthorRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class AuthorServiceImpl implements AuthorService {
     public AuthorDTO getAuthorById(Long id) {
         return authorRepository.findById(id)
                 .map(this::mapToDTO)
-                .orElseThrow(() -> new EntityNotFoundException("User Not found"));
+                .orElseThrow(() -> new AuthorNotFoundException(id));
     }
 
     @Override

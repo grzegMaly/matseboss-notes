@@ -5,6 +5,7 @@ import com.interview.notes.response.ApiCollectionResponse;
 import com.interview.notes.response.ApiResponse;
 import com.interview.notes.services.author.AuthorService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -12,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+@Validated
 @RestController
 @RequestMapping("/authors")
 public class AuthorController {
@@ -24,7 +25,7 @@ public class AuthorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<AuthorDTO>> getAuthorById(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<AuthorDTO>> getAuthorById(@PathVariable @Positive Long id) {
 
         AuthorDTO authorDTO = authorService.getAuthorById(id);
         ApiResponse<AuthorDTO> response = new ApiResponse<>("OK", authorDTO);
